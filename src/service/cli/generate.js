@@ -1,6 +1,6 @@
 'use strict';
 
-const { getRandomInt, shuffle } = require(`../../utils`);
+const { getRandomInt, shuffle, getRandomDate } = require(`../../utils`);
 
 const DEFAULT_OFFERS_COUNT = 1;
 const MAX_ANNOUNCE_SENTENCE_COUNT = 5;
@@ -61,7 +61,7 @@ const generateOffers = (offersCount) => {
   for (let i = 0; i < offersCount; i++) {
     offers.push({
       title: Titles[getRandomInt(0, Titles.length - 1)],
-      createdDate: new Date(),
+      createdDate: getRandomDate(),
       announce: shuffle(Announcements).slice(0, getRandomInt(1 , MAX_ANNOUNCE_SENTENCE_COUNT)),
       fullText: shuffle(Announcements).slice(0, getRandomInt(1, Announcements.length - 1)),
       category: shuffle(Categories).slice(0, getRandomInt(1, Categories.length - 1))
@@ -71,7 +71,7 @@ const generateOffers = (offersCount) => {
   return offers;
 };
 
-console.log(generateOffers(5));
+console.log(generateOffers(2));
 
 module.exports = {
   name: '--generate',
