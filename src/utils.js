@@ -7,8 +7,6 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const getDoubleCount = (number) => number < 10 ? `0${number}` : number;
-
 const getRandomDate = () => {
   const YearRandomRestrict = {
     MIN: 1950,
@@ -26,20 +24,13 @@ const getRandomDate = () => {
   };
 
   const getRandomYear = getRandomInt(YearRandomRestrict.MIN, YearRandomRestrict.MAX);
-  const getRandomMonth = getDoubleCount(getRandomInt(MonthRandomRestrict.MIN, MonthRandomRestrict.MAX));
-  const getRandomDay = getDoubleCount(getRandomInt(DayRandomRestrict.MIN, DayRandomRestrict.MAX));
+  const getRandomMonth = getRandomInt(MonthRandomRestrict.MIN, MonthRandomRestrict.MAX).toString().padStart(2, '0');
+  const getRandomDay = getRandomInt(DayRandomRestrict.MIN, DayRandomRestrict.MAX).toString().padStart(2, '0');
 
   return new Date(`${getRandomYear}-${getRandomMonth}-${getRandomDay}T03:24:00`);
 };
 
-const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const randomPosition = Math.floor(Math.random() * i);
-    [array[i], array[randomPosition]] = [array[randomPosition], array[i]];
-  }
-
-  return array;
-};
+const shuffle = (array) => array.slice().sort(() => Math.random() - 0.5);
 
 module.exports = {
   getRandomInt,
