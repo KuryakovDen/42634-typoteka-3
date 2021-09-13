@@ -3,6 +3,8 @@
 const DEFAULT_OFFERS_COUNT = 1;
 const MAX_ANNOUNCE_SENTENCE_COUNT = 5;
 
+const FILE_NAME = 'mocks.json';
+
 const Titles = [
   `Ёлки. История деревьев`,
   `Как перестать беспокоиться и начать жить`,
@@ -56,6 +58,7 @@ const Categories = [
 module.exports = {
   DEFAULT_OFFERS_COUNT,
   MAX_ANNOUNCE_SENTENCE_COUNT,
+  FILE_NAME,
   Titles,
   Announcements,
   Categories

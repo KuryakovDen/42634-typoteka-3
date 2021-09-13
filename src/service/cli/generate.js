@@ -1,7 +1,8 @@
 'use strict';
 
 const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
-const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, Titles, Announcements, Categories} = require(`../../const`);
+const fs = require(`fs`);
+const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, Titles, Announcements, Categories} = require(`../../const`);
 
 const generateOffers = (offersCount) => {
   const offers = [];
@@ -19,11 +20,19 @@ const generateOffers = (offersCount) => {
   return offers;
 };
 
-console.log(generateOffers(2));
-
 module.exports = {
   name: `--generate`,
-  run(offersCount) {
-    generateOffers(offersCount);
+  run(args) {
+    const [count] = args;
+    const countOffer = Number.parseInt(count, 10) || DEFAULT_OFFERS_COUNT;
+    const content = JSON.stringify(generateOffers(countOffer));
+
+    fs.writeFile(FILE_NAME, content, (err) => {
+      if (err) {
+        return console.error(`Can't write data to file...`);
+      }
+
+      return console.info(`Operation success. File created.`);
+    })
   }
 };
