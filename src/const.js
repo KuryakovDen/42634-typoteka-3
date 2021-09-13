@@ -3,6 +3,7 @@
 const DEFAULT_OFFERS_COUNT = 1;
 const MAX_ANNOUNCE_SENTENCE_COUNT = 5;
 const USER_ARGV_INDEX = 2;
+const MAX_MOCK_ELEMENTS = 1000;
 
 const FILE_NAME = `mocks.json`;
 const DEFAULT_COMMAND = `--help`;
@@ -68,6 +69,7 @@ module.exports = {
   USER_ARGV_INDEX,
   DEFAULT_COMMAND,
   FILE_NAME,
+  MAX_MOCK_ELEMENTS,
   ExitCode,
   Titles,
   Announcements,
