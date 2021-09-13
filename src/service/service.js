@@ -1,8 +1,8 @@
 'use strict';
 
-const { Cli } = require('./cli/index');
+const {Cli} = require(`./cli/index`);
 const chalk = require(`chalk`);
-const { DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode, MAX_MOCK_ELEMENTS } = require('../const');
+const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode, MAX_MOCK_ELEMENTS} = require(`../const`);
 
 const userArguments = process.argv.slice(USER_ARGV_INDEX);
 const [userCommand] = userArguments;

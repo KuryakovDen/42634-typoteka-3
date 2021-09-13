@@ -1,8 +1,8 @@
 'use strict';
 
-const versionModule = require('../cli/version');
-const helpModule = require('../cli/help');
-const generateModule = require('../cli/generate');
+const versionModule = require(`../cli/version`);
+const helpModule = require(`../cli/help`);
+const generateModule = require(`../cli/generate`);
 
 const Cli = {
   [versionModule.name]: versionModule,

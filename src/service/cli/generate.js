@@ -33,6 +33,6 @@ module.exports = {
       }
 
       return console.info(`Operation success. File created.`);
-    })
+    });
   }
 };
