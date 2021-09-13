@@ -2,8 +2,15 @@
 
 const DEFAULT_OFFERS_COUNT = 1;
 const MAX_ANNOUNCE_SENTENCE_COUNT = 5;
+const USER_ARGV_INDEX = 2;
 
-const FILE_NAME = 'mocks.json';
+const FILE_NAME = `mocks.json`;
+const DEFAULT_COMMAND = `--help`;
+
+const ExitCode = {
+  Success: 0,
+  Fail: 1
+};
 
 const Titles = [
   `Ёлки. История деревьев`,
@@ -58,7 +65,10 @@ const Categories = [
 module.exports = {
   DEFAULT_OFFERS_COUNT,
   MAX_ANNOUNCE_SENTENCE_COUNT,
+  USER_ARGV_INDEX,
+  DEFAULT_COMMAND,
   FILE_NAME,
+  ExitCode,
   Titles,
   Announcements,
   Categories
