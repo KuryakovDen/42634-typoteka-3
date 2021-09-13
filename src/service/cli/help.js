@@ -3,7 +3,7 @@
 const chalk = require(`chalk`);
 
 module.exports = {
-  name: '--help',
+  name: `--help`,
   run() {
     const text = `Программа запускает http-сервер и формирует файл с данными для API.
 
