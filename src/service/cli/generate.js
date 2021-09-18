@@ -33,6 +33,6 @@ module.exports = {
 
     await writeFilePromise(FILE_NAME, content)
       .then(() => console.info(chalk.green(`Operation success. File created.`)))
-      .catch(() => console.error(chalk.red(`Can't write data to file...`)))
+      .catch(() => console.error(chalk.red(`Can't write data to file...`)));
   }
 };
