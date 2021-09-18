@@ -2,6 +2,7 @@
 
 const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
 const fs = require(`fs`);
+const chalk = require(`chalk`);
 const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, Titles, Announcements, Categories} = require(`../../const`);
 
 const generateOffers = (offersCount) => {
@@ -29,10 +30,10 @@ module.exports = {
 
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        return console.error(`Can't write data to file...`);
+        return console.error(chalk.red(`Can't write data to file...`));
       }
 
-      return console.info(`Operation success. File created.`);
+      return console.info(chalk.green(`Operation success. File created.`));
     });
   }
 };
