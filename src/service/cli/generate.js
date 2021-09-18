@@ -2,6 +2,8 @@
 
 const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
 const fs = require(`fs`);
+const chalk = require(`chalk`);
+const util = require(`util`);
 const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, Titles, Announcements, Categories} = require(`../../const`);
 
 const generateOffers = (offersCount) => {
@@ -22,17 +24,15 @@ const generateOffers = (offersCount) => {
 
 module.exports = {
   name: `--generate`,
-  run(args) {
+  async run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_OFFERS_COUNT;
     const content = JSON.stringify(generateOffers(countOffer));
 
-    fs.writeFile(FILE_NAME, content, (err) => {
-      if (err) {
-        return console.error(`Can't write data to file...`);
-      }
+    const writeFilePromise = util.promisify(fs.writeFile);
 
-      return console.info(`Operation success. File created.`);
-    });
+    await writeFilePromise(FILE_NAME, content)
+      .then(() => console.info(chalk.green(`Operation success. File created.`)))
+      .catch(() => console.error(chalk.red(`Can't write data to file...`)));
   }
 };
