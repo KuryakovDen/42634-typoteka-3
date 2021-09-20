@@ -1,21 +1,38 @@
 'use strict';
 
 const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
-const fs = require(`fs`);
-const chalk = require(`chalk`);
-const util = require(`util`);
-const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, Titles, Announcements, Categories} = require(`../../const`);
 
-const generateOffers = (offersCount) => {
+const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
+
+const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME} = require(`../../const`);
+
+const MockFilesPath = {
+  TITLES: `./data/titles.txt`,
+  SENTENCES: `./data/sentences.txt`,
+  CATEGORIES: `./data/categories.txt`
+}
+
+const readContent = async (path) => {
+  try {
+    const content = await fs.readFile(path, `utf8`);
+    return content.trim().split(`\n`);
+  } catch (error) {
+    console.error(chalk.red(error));
+    return [];
+  }
+};
+
+const generateOffers = (offersCount, titles, sentences, categories) => {
   const offers = [];
 
   for (let i = 0; i < offersCount; i++) {
     offers.push({
-      title: Titles[getRandomInt(0, Titles.length - 1)],
+      title: titles[getRandomInt(0, titles.length - 1)],
       createdDate: getRandomDate(getRandomInt(0, 90)),
-      announce: shuffle(Announcements).slice(0, getRandomInt(1, MAX_ANNOUNCE_SENTENCE_COUNT)),
-      fullText: shuffle(Announcements).slice(0, getRandomInt(1, Announcements.length - 1)),
-      category: shuffle(Categories).slice(0, getRandomInt(1, Categories.length - 1))
+      announce: shuffle(sentences).slice(0, getRandomInt(1, MAX_ANNOUNCE_SENTENCE_COUNT)),
+      fullText: shuffle(sentences).slice(0, getRandomInt(1, sentences.length - 1)),
+      category: shuffle(categories).slice(0, getRandomInt(1, categories.length - 1))
     });
   }
 
@@ -27,11 +44,15 @@ module.exports = {
   async run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_OFFERS_COUNT;
-    const content = JSON.stringify(generateOffers(countOffer));
+    const content = JSON.stringify(
+      generateOffers(
+        countOffer,
+        await readContent(MockFilesPath.TITLES),
+        await readContent(MockFilesPath.SENTENCES),
+        await readContent(MockFilesPath.CATEGORIES)
+      ));
 
-    const writeFilePromise = util.promisify(fs.writeFile);
-
-    await writeFilePromise(FILE_NAME, content)
+    await fs.writeFile(FILE_NAME, content)
       .then(() => console.info(chalk.green(`Operation success. File created.`)))
       .catch(() => console.error(chalk.red(`Can't write data to file...`)));
   }
