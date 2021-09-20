@@ -13,6 +13,12 @@ const ExitCode = {
   Fail: 1
 };
 
+const MockFilesPath = {
+  Titles: `./data/titles.txt`,
+  Sentences: `./data/sentences.txt`,
+  Categories: `./data/categories.txt`
+}
+
 module.exports = {
   DEFAULT_OFFERS_COUNT,
   MAX_ANNOUNCE_SENTENCE_COUNT,
@@ -21,7 +27,5 @@ module.exports = {
   FILE_NAME,
   MAX_MOCK_ELEMENTS,
   ExitCode,
-  Titles,
-  Announcements,
-  Categories
+  MockFilesPath
 };
