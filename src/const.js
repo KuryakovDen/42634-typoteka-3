@@ -8,10 +8,16 @@ const DEFAULT_PORT = 4000;
 
 const FILE_NAME = `mock.json`;
 const DEFAULT_COMMAND = `--help`;
+const NOT_FOUND_TEXT = `Not Found`;
 
 const ExitCode = {
   Success: 0,
   Fail: 1
+};
+
+const HttpCode = {
+  SUCCESS: 200,
+  NOT_FOUND: 404
 };
 
 module.exports = {
@@ -22,5 +28,7 @@ module.exports = {
   DEFAULT_PORT,
   FILE_NAME,
   MAX_MOCK_ELEMENTS,
-  ExitCode
+  NOT_FOUND_TEXT,
+  ExitCode,
+  HttpCode
 };
