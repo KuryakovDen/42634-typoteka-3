@@ -21,11 +21,11 @@ module.exports = {
           <body>${message}</body>
         </html>`.trim();
 
-      http.writeHead(statusCode, {
+      res.writeHead(statusCode, {
         'Content-Type': `text/html; charset=UTF-8`,
       });
 
-      http.end(template);
+      res.end(template);
     };
 
     const onClientConnect = async (req, res) => {
