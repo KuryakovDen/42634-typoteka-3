@@ -11,7 +11,7 @@ const MockFilesPath = {
   TITLES: `./data/titles.txt`,
   SENTENCES: `./data/sentences.txt`,
   CATEGORIES: `./data/categories.txt`
-}
+};
 
 const readContent = async (path) => {
   try {
@@ -45,12 +45,12 @@ module.exports = {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_OFFERS_COUNT;
     const content = JSON.stringify(
-      generateOffers(
-        countOffer,
-        await readContent(MockFilesPath.TITLES),
-        await readContent(MockFilesPath.SENTENCES),
-        await readContent(MockFilesPath.CATEGORIES)
-      ));
+        generateOffers(
+            countOffer,
+            await readContent(MockFilesPath.TITLES),
+            await readContent(MockFilesPath.SENTENCES),
+            await readContent(MockFilesPath.CATEGORIES)
+        ));
 
     await fs.writeFile(FILE_NAME, content)
       .then(() => console.info(chalk.green(`Operation success. File created.`)))
