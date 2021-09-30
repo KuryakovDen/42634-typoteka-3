@@ -10,6 +10,7 @@ const DEFAULT_SERVER_PORT = 8080;
 const FILE_NAME = `mock.json`;
 const DEFAULT_COMMAND = `--help`;
 const NOT_FOUND_TEXT = `Not Found`;
+const PUBLIC_DIR = `public`;
 
 const ExitCode = {
   Success: 0,
@@ -28,6 +29,7 @@ module.exports = {
   DEFAULT_COMMAND,
   DEFAULT_PORT,
   DEFAULT_SERVER_PORT,
+  PUBLIC_DIR,
   FILE_NAME,
   MAX_MOCK_ELEMENTS,
   NOT_FOUND_TEXT,
