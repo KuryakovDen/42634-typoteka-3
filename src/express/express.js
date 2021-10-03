@@ -12,8 +12,8 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
 
 app.use(`/`, mainRoutes);
-app.use(`/my`, myRoutes);
-app.use(`/articles`, articlesRoutes);
+app.use(`/my/`, myRoutes);
+app.use(`/articles/`, articlesRoutes);
 
 app.set(`views`, path.resolve(__dirname, `templates`));
 app.set(`view engine`, `pug`);
