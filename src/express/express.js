@@ -15,7 +15,7 @@ app.use(`/`, mainRoutes);
 app.use(`/my`, myRoutes);
 app.use(`/articles`, articlesRoutes);
 
-app.set(`vies`, path.resolve(__dirname, `templates`));
+app.set(`views`, path.resolve(__dirname, `templates`));
 app.set(`view engine`, `pug`);
 
 app.listen(DEFAULT_SERVER_PORT);

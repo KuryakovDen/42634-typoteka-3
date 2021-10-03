@@ -5,7 +5,7 @@ const MAX_ANNOUNCE_SENTENCE_COUNT = 5;
 const USER_ARGV_INDEX = 2;
 const MAX_MOCK_ELEMENTS = 1000;
 const DEFAULT_PORT = 3000;
-const DEFAULT_SERVER_PORT = 8080;
+const DEFAULT_SERVER_PORT = 7775;
 
 const FILE_NAME = `mock.json`;
 const DEFAULT_COMMAND = `--help`;
