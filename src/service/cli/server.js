@@ -43,8 +43,9 @@ module.exports = {
 
           break;
         }
-        default:
+        default: {
           sendResponse(res, HttpCode.NOT_FOUND, NOT_FOUND_TEXT);
+        }
       }
     };
 
