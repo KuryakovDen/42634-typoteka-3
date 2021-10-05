@@ -13,7 +13,7 @@ module.exports = {
     const app = express();
     app.use(express.json());
 
-    app.get(`/service`, async (req, res) => {
+    app.get(`/posts`, async (req, res) => {
       try {
         const fileContent = await fs.readFile(FILE_NAME);
         const mocks = JSON.parse(fileContent);
