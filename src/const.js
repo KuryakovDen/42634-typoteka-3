@@ -6,6 +6,7 @@ const USER_ARGV_INDEX = 2;
 const MAX_MOCK_ELEMENTS = 1000;
 const DEFAULT_PORT = 3000;
 const DEFAULT_SERVER_PORT = 7775;
+const MAX_ID_LENGTH = 6;
 
 const FILE_NAME = `mock.json`;
 const DEFAULT_COMMAND = `--help`;
@@ -29,6 +30,7 @@ module.exports = {
   DEFAULT_COMMAND,
   DEFAULT_PORT,
   DEFAULT_SERVER_PORT,
+  MAX_ID_LENGTH,
   PUBLIC_DIR,
   FILE_NAME,
   MAX_MOCK_ELEMENTS,

@@ -4,8 +4,9 @@ const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
+const {nanoid} = require(`nanoid`);
 
-const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME} = require(`../../const`);
+const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, MAX_ID_LENGTH} = require(`../../const`);
 
 const MockFilesPath = {
   TITLES: `./data/titles.txt`,
@@ -28,6 +29,7 @@ const generateOffers = (offersCount, titles, sentences, categories) => {
 
   for (let i = 0; i < offersCount; i++) {
     offers.push({
+      id: nanoid(MAX_ID_LENGTH),
       title: titles[getRandomInt(0, titles.length - 1)],
       createdDate: getRandomDate(getRandomInt(0, 90)),
       announce: shuffle(sentences).slice(0, getRandomInt(1, MAX_ANNOUNCE_SENTENCE_COUNT)),
