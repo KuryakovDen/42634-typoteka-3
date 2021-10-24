@@ -11,7 +11,8 @@ const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, MAX_ID_LENG
 const MockFilesPath = {
   TITLES: `./data/titles.txt`,
   SENTENCES: `./data/sentences.txt`,
-  CATEGORIES: `./data/categories.txt`
+  CATEGORIES: `./data/categories.txt`,
+  COMMENTS: `./data/comments.txt`
 };
 
 const readContent = async (path) => {
@@ -24,7 +25,20 @@ const readContent = async (path) => {
   }
 };
 
-const generateOffers = (offersCount, titles, sentences, categories) => {
+const generateComments = (count, comments) => {
+  const offerComments = [];
+
+  for (let i = 0; i < count; i++) {
+    offerComments.push({
+      id: nanoid(MAX_ID_LENGTH),
+      text: shuffle(comments).slice(0, getRandomInt(1, comments.length - 1)).join(` `)
+    });
+  }
+
+  return offerComments;
+};
+
+const generateOffers = (offersCount, titles, sentences, categories, comments) => {
   const offers = [];
 
   for (let i = 0; i < offersCount; i++) {
@@ -34,7 +48,8 @@ const generateOffers = (offersCount, titles, sentences, categories) => {
       createdDate: getRandomDate(getRandomInt(0, 90)),
       announce: shuffle(sentences).slice(0, getRandomInt(1, MAX_ANNOUNCE_SENTENCE_COUNT)),
       fullText: shuffle(sentences).slice(0, getRandomInt(1, sentences.length - 1)),
-      category: shuffle(categories).slice(0, getRandomInt(1, categories.length - 1))
+      category: shuffle(categories).slice(0, getRandomInt(1, categories.length - 1)),
+      comments: generateComments(getRandomInt(1, comments.length - 1), comments)
     });
   }
 
@@ -51,7 +66,8 @@ module.exports = {
             countOffer,
             await readContent(MockFilesPath.TITLES),
             await readContent(MockFilesPath.SENTENCES),
-            await readContent(MockFilesPath.CATEGORIES)
+            await readContent(MockFilesPath.CATEGORIES),
+            await readContent(MockFilesPath.COMMENTS)
         ));
 
     await fs.writeFile(FILE_NAME, content)
