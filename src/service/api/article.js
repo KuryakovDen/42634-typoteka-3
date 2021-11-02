@@ -2,6 +2,7 @@
 
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../const`);
+const articleValidator = require(`../middlewares/article-validator`);
 
 const route = new Router();
 
@@ -26,8 +27,47 @@ module.exports = (app, articleService, commentService) => {
   });
 
   route.post(`/`, (req, res) => {
-    const newArticle = req.body;
+    const newArticle = articleService.create(req.body);
 
-    articleService.create(newArticle);
+    return res.status(HttpCode.CREATED).json(newArticle);
+  });
+
+  route.put(`/:articleId`, articleValidator, (req, res) => {
+    const {articleId} = req.params;
+
+    const isArticleExists = articleService.getArticle(articleId);
+
+    if (!isArticleExists) {
+      return res
+        .status(HttpCode.NOT_FOUND).send(`Not found article with id ${articleId}`);
+    }
+
+    const updatedArticle = articleService.updateArticle(articleId, req.body);
+
+    return res.status(HttpCode.SUCCESS).json(updatedArticle);
+  });
+
+  route.delete(`/:articleId`, articleValidator, (req, res) => {
+    const {deletedId} = req.params;
+
+    const deletedArticle = articleService.getArticle(deletedId);
+
+    if (!deletedArticle) {
+      return res.status(HttpCode.NOT_FOUND).send(`Not found article with id ${deletedId}`);
+    }
+
+    return res.status(HttpCode.SUCCESS).json(deletedArticle);
+  });
+
+  route.get(`/:articleId/comments`, articleValidator, (req, res) => {
+
+  });
+
+  route.delete(`/:articleId/comments/:commentId`, articleValidator, (req, res) => {
+
+  });
+
+  route.post(`/:articleId/comments`, articleValidator, (req, res) => {
+
   });
 };

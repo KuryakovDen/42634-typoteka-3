@@ -4,11 +4,10 @@ const {HttpCode} = require(`../../const`);
 
 const articleKeys = [
   `title`,
-  `picture`,
-  `date`,
+  `createdDate`,
   `category`,
-  `announcement`,
-  `description`
+  `announce`,
+  `fullText`
 ];
 
 module.exports = (req, res, next) => {
