@@ -1,8 +1,9 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpCode} = require(`../../const`);
+const {HttpCode, NOT_FOUND_TEXT} = require(`../../const`);
 const articleValidator = require(`../middlewares/article-validator`);
+const articleExist = require(`../middlewares/article-exist`);
 
 const route = new Router();
 
@@ -59,12 +60,25 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.SUCCESS).json(deletedArticle);
   });
 
-  route.get(`/:articleId/comments`, articleValidator, (req, res) => {
+  route.get(`/:articleId/comments`, articleExist(articleService), (req, res) => {
+    const {article} = res.locals;
 
+    const comments = commentService.findAll(article);
+
+    return res.status(HttpCode.SUCCESS).json(comments);
   });
 
-  route.delete(`/:articleId/comments/:commentId`, articleValidator, (req, res) => {
+  route.delete(`/:articleId/comments/:commentId`, articleExist(articleService), (req, res) => {
+    const {article} = res.locals;
+    const {commentId} = req.params;
 
+    const deletedComment = commentService.deleteComment(article, commentId);
+
+    if (!deletedComment) {
+      return res.status(HttpCode.NOT_FOUND).send(NOT_FOUND_TEXT);
+    }
+
+    return res.status(HttpCode.SUCCESS).json(deletedComment);
   });
 
   route.post(`/:articleId/comments`, articleValidator, (req, res) => {
