@@ -4,6 +4,7 @@ const {Router} = require(`express`);
 const {HttpCode, NOT_FOUND_TEXT} = require(`../../const`);
 const articleValidator = require(`../middlewares/article-validator`);
 const articleExist = require(`../middlewares/article-exist`);
+const commentValidator = require(`../middlewares/comment-validator`);
 
 const route = new Router();
 
@@ -81,7 +82,10 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.SUCCESS).json(deletedComment);
   });
 
-  route.post(`/:articleId/comments`, articleValidator, (req, res) => {
+  route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], (req, res) => {
+    const {article} = res.locals;
+    const newComment = commentService.createComment(article, req.body);
 
+    return res.status(HttpCode.CREATED).json(newComment);
   });
 };
