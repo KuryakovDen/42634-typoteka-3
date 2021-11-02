@@ -1,22 +1,33 @@
 'use strict';
 
-const fs = require(`fs`).promises;
 const {FILE_NAME} = require(`../../const`);
+const fs = require(`fs`).promises;
 
-let data = [];
+let data = null;
 
 const getMockData = async () => {
-  if (data.length > 0) {
-    return data;
+  if (data !== null) {
+    return Promise.resolve(data);
   }
 
   try {
     const fileContent = await fs.readFile(FILE_NAME);
     data = JSON.parse(fileContent);
-  } catch (error) {
-    console.log(error);
-    return error;
+  } catch (err) {
+    console.log(err);
+    return Promise.reject(err);
   }
+
+  return Promise.resolve(data);
 };
+
+(async () => {
+  try {
+    const fileContent = await fs.readFile(FILE_NAME);
+    data = JSON.parse(fileContent);
+  } catch (err) {
+    console.log(err);
+  }
+})();
 
 module.exports = getMockData;

@@ -19,7 +19,7 @@ module.exports = {
         const mocks = JSON.parse(fileContent);
 
         res.json(mocks);
-      } catch {
+      } catch (error) {
         res.send([]);
       }
     });

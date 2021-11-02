@@ -10,7 +10,7 @@ class CategoryService {
       offer.category.forEach((category) => acc.add(category));
     }, new Set());
 
-    return [...categories]
+    return [...categories];
   }
 }
 
