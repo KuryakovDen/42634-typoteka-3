@@ -19,6 +19,6 @@ module.exports = (app, service) => {
     const searchResults = service.findAll(query);
     const searchStatus = searchResults.length > 0 ? HttpCode.SUCCESS : HttpCode.NOT_FOUND;
 
-    res.status(searchStatus).json(searchStatus);
+    res.status(searchStatus).json(searchResults);
   });
 };
