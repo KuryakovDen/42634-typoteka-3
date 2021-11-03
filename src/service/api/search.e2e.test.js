@@ -175,3 +175,24 @@ describe(`API returns article based on search query`, () => {
   test(`Expected count of articles found`, () => expect(response.body.length).toBe(2));
   test(`First article has correct id`, () => expect(response.body[0].id).toBe(`zIJWgh`));
 });
+
+describe(`Incorrect requests`, () => {
+  let notFoundResponse;
+  let badRequestResponse;
+
+  beforeAll(async () => {
+    notFoundResponse = await request(app)
+      .get(`/search`)
+      .query({
+        query: `Последний танец`
+      })
+  });
+
+  beforeAll(async () => {
+    badRequestResponse = await request(app)
+      .get(`/search`)
+  });
+
+  test(`API returns code 404 if nothing is found`, () => expect(notFoundResponse.statusCode).toBe(HttpCode.NOT_FOUND));
+  test(`Request with absent query`, () => expect(badRequestResponse.statusCode).toBe(HttpCode.BAD_REQUEST))
+});
