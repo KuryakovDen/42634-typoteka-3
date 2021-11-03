@@ -29,7 +29,7 @@ module.exports = (app, articleService, commentService) => {
   });
 
   route.post(`/`, (req, res) => {
-    const newArticle = articleService.create(req.body);
+    const newArticle = articleService.createArticle(req.body);
 
     return res.status(HttpCode.CREATED).json(newArticle);
   });
@@ -52,7 +52,7 @@ module.exports = (app, articleService, commentService) => {
   route.delete(`/:articleId`, articleValidator, (req, res) => {
     const {deletedId} = req.params;
 
-    const deletedArticle = articleService.getArticle(deletedId);
+    const deletedArticle = articleService.deleteArticle(deletedId);
 
     if (!deletedArticle) {
       return res.status(HttpCode.NOT_FOUND).send(`Not found article with id ${deletedId}`);
