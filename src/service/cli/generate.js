@@ -6,7 +6,7 @@ const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
 
-const {DEFAULT_OFFERS_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, MAX_ID_LENGTH} = require(`../../const`);
+const {DEFAULT_ARTICLES_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, MAX_ID_LENGTH} = require(`../../const`);
 
 const MockFilesPath = {
   TITLES: `./data/titles.txt`,
@@ -26,23 +26,23 @@ const readContent = async (path) => {
 };
 
 const generateComments = (count, comments) => {
-  const offerComments = [];
+  const articleComments = [];
 
   for (let i = 0; i < count; i++) {
-    offerComments.push({
+    articleComments.push({
       id: nanoid(MAX_ID_LENGTH),
       text: shuffle(comments).slice(0, getRandomInt(1, comments.length - 1)).join(` `)
     });
   }
 
-  return offerComments;
+  return articleComments;
 };
 
-const generateOffers = (offersCount, titles, sentences, categories, comments) => {
-  const offers = [];
+const generateArticles = (articlesCount, titles, sentences, categories, comments) => {
+  const articles = [];
 
-  for (let i = 0; i < offersCount; i++) {
-    offers.push({
+  for (let i = 0; i < articlesCount; i++) {
+    articles.push({
       id: nanoid(MAX_ID_LENGTH),
       title: titles[getRandomInt(0, titles.length - 1)],
       createdDate: getRandomDate(getRandomInt(0, 90)),
@@ -53,17 +53,17 @@ const generateOffers = (offersCount, titles, sentences, categories, comments) =>
     });
   }
 
-  return offers;
+  return articles;
 };
 
 module.exports = {
   name: `--generate`,
   async run(args) {
     const [count] = args;
-    const countOffer = Number.parseInt(count, 10) || DEFAULT_OFFERS_COUNT;
+    const countArticle = Number.parseInt(count, 10) || DEFAULT_ARTICLES_COUNT;
     const content = JSON.stringify(
-        generateOffers(
-            countOffer,
+      generateArticles(
+        countArticle,
             await readContent(MockFilesPath.TITLES),
             await readContent(MockFilesPath.SENTENCES),
             await readContent(MockFilesPath.CATEGORIES),
