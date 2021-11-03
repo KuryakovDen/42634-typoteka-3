@@ -62,8 +62,8 @@ module.exports = {
     const [count] = args;
     const countArticle = Number.parseInt(count, 10) || DEFAULT_ARTICLES_COUNT;
     const content = JSON.stringify(
-      generateArticles(
-        countArticle,
+        generateArticles(
+            countArticle,
             await readContent(MockFilesPath.TITLES),
             await readContent(MockFilesPath.SENTENCES),
             await readContent(MockFilesPath.CATEGORIES),
