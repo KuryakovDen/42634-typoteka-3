@@ -193,3 +193,29 @@ describe(`API refuses to create an article if data is invalid`, () => {
     }
   });
 });
+
+describe(`API changes existent offer`, () => {
+  const app = createAPI();
+  let response;
+
+  const newArticle = {
+    title: `Новая публикация`,
+    createdDate: `2021-10-02T13:13:23.935Z`,
+    announce: `Ёлки — это не просто красивое дерево. Это прочная древесина.`,
+    fullText: `Он написал больше 30 хитов.`,
+    category: `Одежда`
+  };
+
+  beforeAll(async () => {
+    response = await request(app)
+      .put(`/articles/LwyX41`)
+      .send(newArticle)
+  });
+
+  test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
+  test(`Returns changed article`, () => expect(response.body).toEqual(expect.objectContaining(newArticle)));
+  test(`Article is really changed`, () => request(app)
+    .get(`/articles/LwyX41`)
+    .expect((res) => expect(res.body.title).toBe(`Новая публикация`))
+  );
+});
