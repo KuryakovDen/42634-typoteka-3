@@ -252,3 +252,28 @@ test(`API returns status code 400 when trying to change an article with invalid 
     .send(invalidArticle)
     .expect(HttpCode.BAD_REQUEST)
 });
+
+describe(`API correctly deletes an article`, () => {
+  const app = createAPI();
+  let response;
+
+  beforeAll(async () => {
+    response = await request(app)
+      .delete(`articles/SkzPxK`)
+  });
+
+  test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
+  test(`Returns deleted article`, () => expect(response.body.id).toBe(`SkzPxK`));
+  test(`Offer count is 2 now`, () => request(app)
+    .get(`/articles`)
+    .expect((res) => expect(res.body.length).toBe(2))
+  );
+});
+
+test(`API refuses to delete non-existent article`, () => {
+  const app = createAPI();
+
+  return request(app)
+    .delete(`articles/NOT_EXT`)
+    .expect(HttpCode.NOT_FOUND)
+});
