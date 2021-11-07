@@ -176,7 +176,7 @@ describe(`API returns article based on search query`, () => {
   test(`First article has correct id`, () => expect(response.body[0].id).toBe(`zIJWgh`));
 });
 
-describe(`Incorrect requests`, () => {
+describe(`API returns errors for incorrect search queries`, () => {
   let notFoundResponse;
   let badRequestResponse;
 
