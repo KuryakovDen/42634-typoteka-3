@@ -170,3 +170,26 @@ describe(`API creates an article if data is valid`, () => {
     .get(`/articles`)
     .expect((res) => expect(res.body.length).toBe(4)));
 });
+
+describe(`API refuses to create an article if data is invalid`, () => {
+  const app = createAPI();
+
+  const newArticle = {
+    title: `Новая публикация`,
+    createdDate: `2021-10-02T13:13:23.935Z`,
+    announce: `Ёлки — это не просто красивое дерево. Это прочная древесина.`,
+    fullText: `Он написал больше 30 хитов.`,
+    category: `Одежда`
+  };
+
+  test(`Without any required property response code is 400`, async () => {
+    for (const key of Object.keys(newArticle)) {
+      const badArticle = {...newArticle};
+      delete badArticle[key];
+      await request(app)
+        .post(`/articles`)
+        .send(badArticle)
+        .expect(HttpCode.BAD_REQUEST)
+    }
+  });
+});
