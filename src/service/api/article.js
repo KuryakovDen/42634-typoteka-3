@@ -17,6 +17,8 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.SUCCESS).json(articles);
   });
 
+  app.use(`/articles`, route);
+
   route.get(`/:articleId`, (req, res) => {
     const {articleId} = req.params;
     const currentArticle = articleService.getArticle(articleId);
@@ -28,11 +30,15 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.SUCCESS).json(currentArticle);
   });
 
+  app.use(`/articles`, route);
+
   route.post(`/`, (req, res) => {
     const newArticle = articleService.createArticle(req.body);
 
     return res.status(HttpCode.CREATED).json(newArticle);
   });
+
+  app.use(`/articles`, route);
 
   route.put(`/:articleId`, articleValidator, (req, res) => {
     const {articleId} = req.params;
@@ -49,6 +55,8 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.SUCCESS).json(updatedArticle);
   });
 
+  app.use(`/articles`, route);
+
   route.delete(`/:articleId`, articleValidator, (req, res) => {
     const {deletedId} = req.params;
 
@@ -61,6 +69,8 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.SUCCESS).json(deletedArticle);
   });
 
+  app.use(`/articles`, route);
+
   route.get(`/:articleId/comments`, articleExist(articleService), (req, res) => {
     const {article} = res.locals;
 
@@ -68,6 +78,8 @@ module.exports = (app, articleService, commentService) => {
 
     return res.status(HttpCode.SUCCESS).json(comments);
   });
+
+  app.use(`/articles`, route);
 
   route.delete(`/:articleId/comments/:commentId`, articleExist(articleService), (req, res) => {
     const {article} = res.locals;
@@ -81,6 +93,8 @@ module.exports = (app, articleService, commentService) => {
 
     return res.status(HttpCode.SUCCESS).json(deletedComment);
   });
+
+  app.use(`/articles`, route);
 
   route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], (req, res) => {
     const {article} = res.locals;
