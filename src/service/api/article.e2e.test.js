@@ -132,3 +132,16 @@ describe(`API returns a list of all articles`, () => {
   test(`Correct count of articles`, () => expect(response.body.length).toBe(3));
   test(`Correct id of first article`, () => expect(response.body[0].id).toBe(`R3YVnm`));
 });
+
+describe(`API returns an article with given id`, () => {
+  const app = createAPI();
+  let response;
+
+  beforeAll(async () => {
+    response = await request(app)
+      .get(`/articles/LwyX41`)
+  });
+
+  test(`Status code must be 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
+  test(`Correct title of current article`, () => expect(response.body.title).toBe(`Трудно быть Богом`));
+});
