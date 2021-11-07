@@ -219,3 +219,36 @@ describe(`API changes existent offer`, () => {
     .expect((res) => expect(res.body.title).toBe(`Новая публикация`))
   );
 });
+
+test(`API returns status code 404 when trying to change non-existent article`, () => {
+  const app = createAPI();
+
+  const validArticle = {
+    title: `Новая публикация`,
+    createdDate: `2021-10-02T13:13:23.935Z`,
+    announce: `Ёлки — это не просто красивое дерево. Это прочная древесина.`,
+    fullText: `Он написал больше 30 хитов.`,
+    category: `Одежда`
+  };
+
+  return request(app)
+    .put(`/articles/NO_EXT`)
+    .send(validArticle)
+    .expect(HttpCode.NOT_FOUND)
+});
+
+test(`API returns status code 400 when trying to change an article with invalid data`, () => {
+  const app = createAPI();
+
+  const invalidArticle = {
+    title: `Новая публикация`,
+    createdDate: `2021-10-02T13:13:23.935Z`,
+    announce: `Ёлки — это не просто красивое дерево. Это прочная древесина.`,
+    fullText: `Он написал больше 30 хитов.`
+  };
+
+  return request(app)
+    .put(`/articles/LwyX41`)
+    .send(invalidArticle)
+    .expect(HttpCode.BAD_REQUEST)
+});
