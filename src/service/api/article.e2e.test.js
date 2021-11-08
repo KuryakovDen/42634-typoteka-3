@@ -277,3 +277,89 @@ test(`API refuses to delete non-existent article`, () => {
     .delete(`articles/NOT_EXT`)
     .expect(HttpCode.NOT_FOUND)
 });
+
+
+test(`API refuses to create a comment to non-existent article and returns status code 404`, () => {
+  const app = createAPI();
+
+  return request(app)
+    .post(`articles/NO_EXT/comments`)
+    .send({
+      test: `Unknown`
+    })
+    .expect(HttpCode.NOT_FOUND)
+});
+
+describe(`API returns a list of comments to given article`, () => {
+  const app = createAPI();
+  let response;
+
+  beforeAll(async () => {
+    response = await request(app)
+      .get(`/articles/SkzPxK/comments`)
+  });
+
+  test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
+  test(`Correct count of comments`, () => expect(response.body.length).toBe(1));
+  test(`Correct first id`, () => expect(response.body[0].id).toBe(`wy0dEr`));
+});
+
+test(`API refuses to delete non-existent comment`, () => {
+  const app = createAPI();
+
+  return request(app)
+    .delete(`/articles/SkzPxK/comments/NO_EXT`)
+    .expect(HttpCode.NOT_FOUND)
+});
+
+describe(`API creates a comment if data is valid`, () => {
+  const app = createAPI();
+  let response;
+
+  const newComment = {
+    text: `Some description`
+  };
+
+  beforeAll(async () => {
+    response = await request(app)
+      .post(`/articles/SkzPxK/comments`)
+      .send(newComment)
+  });
+
+  test(`Status code 201`, () => expect(response.statusCode).toBe(HttpCode.CREATED));
+  test(`Comment created`, () => expect(response.body).toEqual(expect.objectContaining(newComment)));
+
+  test(`Comment count has changed`, () => {
+    request(app)
+      .get(`/articles/SkzPxK/comments`)
+      .expect((res) => expect(res.body.length).toBe(2))
+  });
+});
+
+test(`API refuses to create a comment when data is invalid, and returns status code 400`, () => {
+  const app = createAPI();
+
+  return request(app)
+    .post(`/articles/SkzPxK/comments`)
+    .send({})
+    .expect(HttpCode.BAD_REQUEST)
+});
+
+describe(`API correctly deletes a comment`, () => {
+  const app = createAPI();
+  let response;
+
+  beforeAll(async () => {
+    response = await request(app)
+      .delete(`/articles/SkzPxK/comments/wy0dEr`)
+  });
+
+  test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
+  test(`Returns deleted comment`, () => expect(response.body.id).toBe(`wy0dEr`));
+
+  test(`Comment count has changed`, () => {
+    request(app)
+      .get(`/articles/SkzPxK/comments`)
+      .expect((res) => expect(res.body.length).toBe(0))
+  });
+});
