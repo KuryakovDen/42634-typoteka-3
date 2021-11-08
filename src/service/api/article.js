@@ -57,16 +57,16 @@ module.exports = (app, articleService, commentService) => {
 
   app.use(`/articles`, route);
 
-  route.delete(`/:articleId`, articleValidator, (req, res) => {
-    const {deletedId} = req.params;
-
-    const deletedArticle = articleService.deleteArticle(deletedId);
+  route.delete(`/:articleId`, (req, res) => {
+    const {articleId} = req.params;
+    const deletedArticle = articleService.deleteArticle(articleId);
 
     if (!deletedArticle) {
-      return res.status(HttpCode.NOT_FOUND).send(`Not found article with id ${deletedId}`);
+      return res
+        .status(HttpCode.NOT_FOUND).send(`Not found offer with id ${articleId}`);
     }
 
-    return res.status(HttpCode.SUCCESS).json(deletedArticle);
+    return res.status(HttpCode.OK).json(deletedArticle);
   });
 
   app.use(`/articles`, route);

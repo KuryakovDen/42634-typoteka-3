@@ -259,7 +259,7 @@ describe(`API correctly deletes an article`, () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .delete(`articles/SkzPxK`)
+      .delete(`/articles/SkzPxK`)
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
