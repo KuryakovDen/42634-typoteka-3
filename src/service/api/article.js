@@ -32,7 +32,7 @@ module.exports = (app, articleService, commentService) => {
 
   app.use(`/articles`, route);
 
-  route.post(`/`, (req, res) => {
+  route.post(`/`, articleValidator,  (req, res) => {
     const newArticle = articleService.createArticle(req.body);
 
     return res.status(HttpCode.CREATED).json(newArticle);
