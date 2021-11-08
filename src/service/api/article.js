@@ -66,7 +66,7 @@ module.exports = (app, articleService, commentService) => {
         .status(HttpCode.NOT_FOUND).send(`Not found offer with id ${articleId}`);
     }
 
-    return res.status(HttpCode.OK).json(deletedArticle);
+    return res.status(HttpCode.SUCCESS).json(deletedArticle);
   });
 
   app.use(`/articles`, route);
