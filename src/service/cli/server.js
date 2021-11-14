@@ -1,8 +1,11 @@
 'use strict';
 
 const express = require(`express`);
+const {getLogger} = require("../lib/logger");
 const fs = require(`fs`).promises;
 const {DEFAULT_PORT, FILE_NAME, HttpCode, NOT_FOUND_TEXT} = require(`../../const`);
+
+const logger = getLogger({name: `api`});
 
 module.exports = {
   name: `--server`,
@@ -20,12 +23,14 @@ module.exports = {
 
         res.json(mocks);
       } catch (error) {
+        logger.error(`An error occurred: ${error.message}`);
         res.send([]);
       }
     });
 
     app.use((req, res) => res.status(HttpCode.NOT_FOUND).send(NOT_FOUND_TEXT));
 
+    logger.info(`Listening to connections on ${port}`);
     app.listen(port);
   }
 };
