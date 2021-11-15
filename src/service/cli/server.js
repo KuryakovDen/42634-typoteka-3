@@ -28,7 +28,24 @@ module.exports = {
       }
     });
 
-    app.use((req, res) => res.status(HttpCode.NOT_FOUND).send(NOT_FOUND_TEXT));
+    app.use((req, res) => {
+      res
+        .status(HttpCode.NOT_FOUND)
+        .send(NOT_FOUND_TEXT)
+      logger.error(`Route not found: ${req.url}`)
+    });
+
+    app.use((err, _req, _res, _next) => {
+      logger.error(`An error occured on processing request: ${err.message}`);
+    });
+
+    app.use((req, res, next) => {
+      logger.debug(`Request on route ${req.url}`);
+      res.on(`finish`, () => {
+        logger.info(`Response status code ${res.statusCode}`);
+      });
+      next();
+    });
 
     logger.info(`Listening to connections on ${port}`);
     app.listen(port);
