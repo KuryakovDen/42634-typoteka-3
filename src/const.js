@@ -8,6 +8,7 @@ const DEFAULT_PORT = 3000;
 const DEFAULT_SERVER_PORT = 7775;
 const MAX_ID_LENGTH = 6;
 
+const LOG_FILE_PATH = `./logs/api.log`;
 const FILE_NAME = `mock.json`;
 const DEFAULT_COMMAND = `--help`;
 const NOT_FOUND_TEXT = `Not Found`;
@@ -25,6 +26,11 @@ const HttpCode = {
   NOT_FOUND: 404
 };
 
+const ApplicationMode = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`
+};
+
 module.exports = {
   DEFAULT_ARTICLES_COUNT,
   MAX_ANNOUNCE_SENTENCE_COUNT,
@@ -34,9 +40,11 @@ module.exports = {
   DEFAULT_SERVER_PORT,
   MAX_ID_LENGTH,
   PUBLIC_DIR,
+  LOG_FILE_PATH,
   FILE_NAME,
   MAX_MOCK_ELEMENTS,
   NOT_FOUND_TEXT,
   ExitCode,
+  ApplicationMode,
   HttpCode
 };
