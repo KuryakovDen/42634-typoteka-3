@@ -3,9 +3,8 @@
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../const`);
 
-const route = new Router();
-
 module.exports = (app, service) => {
+  const route = new Router();
   app.use(`/search`, route);
 
   route.get(`/`, (req, res) => {
@@ -19,6 +18,6 @@ module.exports = (app, service) => {
     const searchResults = service.findAll(query);
     const searchStatus = searchResults.length > 0 ? HttpCode.SUCCESS : HttpCode.NOT_FOUND;
 
-    res.status(searchStatus).json(searchStatus);
+    res.status(searchStatus).json(searchResults);
   });
 };

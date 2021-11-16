@@ -33,14 +33,14 @@ class ArticleService {
     return Object.assign(updatedArticle, article);
   }
 
-  deleteArticle(deletedId) {
-    const deletedArticle = this._articles.find((article) => article.id === deletedId);
+  deleteArticle(id) {
+    const deletedArticle = this._articles.find((item) => item.id === id);
 
     if (!deletedArticle) {
       return null;
     }
 
-    this._articles.filter((article) => article.id !== deletedArticle.id);
+    this._articles = this._articles.filter((item) => item.id !== id);
 
     return deletedArticle;
   }

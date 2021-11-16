@@ -12,9 +12,9 @@ const articleKeys = [
 
 module.exports = (req, res, next) => {
   const newArticle = req.body;
-  const newOfferKeys = Object.keys(newArticle);
+  const newArticleKeys = Object.keys(newArticle);
 
-  const isKeyExists = articleKeys.every((articleKey) => newOfferKeys.includes(articleKey));
+  const isKeyExists = articleKeys.every((articleKey) => newArticleKeys.includes(articleKey));
 
   if (!isKeyExists) {
     res.status(HttpCode.BAD_REQUEST).send(`Bad request`);
