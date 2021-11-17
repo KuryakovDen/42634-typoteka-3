@@ -194,7 +194,7 @@ describe(`API refuses to create an article if data is invalid`, () => {
   });
 });
 
-describe(`API changes existent offer`, () => {
+describe(`API changes existent article`, () => {
   const app = createAPI();
   let response;
 
@@ -264,7 +264,7 @@ describe(`API correctly deletes an article`, () => {
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.SUCCESS));
   test(`Returns deleted article`, () => expect(response.body.id).toBe(`SkzPxK`));
-  test(`Offer count is 2 now`, () => request(app)
+  test(`Article count is 2 now`, () => request(app)
     .get(`/articles`)
     .expect((res) => expect(res.body.length).toBe(2))
   );

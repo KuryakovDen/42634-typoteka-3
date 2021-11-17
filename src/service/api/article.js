@@ -55,7 +55,7 @@ module.exports = (app, articleService, commentService) => {
 
     if (!deletedArticle) {
       return res
-        .status(HttpCode.NOT_FOUND).send(`Not found offer with id ${articleId}`);
+        .status(HttpCode.NOT_FOUND).send(`Not found article with id ${articleId}`);
     }
 
     return res.status(HttpCode.SUCCESS).json(deletedArticle);
