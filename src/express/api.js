@@ -33,7 +33,7 @@ class API {
   }
 
   getArticles() {
-    return this._load(`/posts`);
+    return this._load(`/articles`);
   }
 
   getArticle(id) {
