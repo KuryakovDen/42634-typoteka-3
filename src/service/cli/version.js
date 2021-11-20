@@ -1,11 +1,13 @@
 'use strict';
-const chalk = require(`chalk`);
+
+const {getLogger} = require("../lib/logger");
+const logger = getLogger({name: `service`});
 const packageJsonFile = require(`../../../package.json`);
 
 module.exports = {
   name: `--version`,
   run() {
-    console.info(chalk.blue(packageJsonFile.version));
+    logger.info(packageJsonFile.version);
   }
 };
 

@@ -1,7 +1,9 @@
 'use strict';
 
+const {getLogger} = require("./logger");
 const {FILE_NAME} = require(`../../const`);
 const fs = require(`fs`).promises;
+const logger = getLogger({name: `service`});
 
 let data = null;
 
@@ -14,7 +16,7 @@ const getMockData = async () => {
     const fileContent = await fs.readFile(FILE_NAME);
     data = JSON.parse(fileContent);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 
@@ -26,7 +28,7 @@ const getMockData = async () => {
     const fileContent = await fs.readFile(FILE_NAME);
     data = JSON.parse(fileContent);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 })();
 
