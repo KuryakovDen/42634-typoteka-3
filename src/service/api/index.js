@@ -7,12 +7,10 @@ const article = require(`../api/article`);
 
 const getMockData = require(`../lib/get-mock-data`);
 
-const {
-  CategoryService,
-  SearchService,
-  ArticleService,
-  CommentService
-} = require(`../data-service`);
+const {CategoryService} = require(`../data-service/category`)
+const {SearchService} = require(`../data-service/search`)
+const {ArticleService} = require(`../data-service/article`)
+const {CommentService} = require(`../data-service/comment`)
 
 const app = new Router();
 

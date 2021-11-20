@@ -3,9 +3,24 @@
 const express = require(`express`);
 const {getLogger} = require("../lib/logger");
 const fs = require(`fs`).promises;
-const {DEFAULT_PORT, FILE_NAME, HttpCode, NOT_FOUND_TEXT} = require(`../../const`);
+const routes = require(`../api`);
+const {DEFAULT_PORT, FILE_NAME, HttpCode, NOT_FOUND_TEXT, API_PREFIX} = require(`../../const`);
 
 const logger = getLogger({name: `api`});
+
+const app = express();
+
+app.use(express.json());
+
+app.use((req, res, next) => {
+  logger.debug(`Request on route ${req.url}`);
+  res.on(`finish`, () => {
+    logger.info(`Response status code ${res.statusCode}`);
+  });
+  next();
+});
+
+app.use(API_PREFIX, routes);
 
 module.exports = {
   name: `--server`,
