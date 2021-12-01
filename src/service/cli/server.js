@@ -22,6 +22,12 @@ app.use((req, res, next) => {
   return next();
 });
 app.use(API_PREFIX, routes);
+
+app.get(`/posts`, async (req, res) => {
+  res.send([]);
+});
+
+
 app.use((req, res) => {
   logger.error(`Route not found: ${req.url}`);
 
