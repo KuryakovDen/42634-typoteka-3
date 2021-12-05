@@ -10,8 +10,8 @@ myRouter.get(`/`, async (req, res) => {
 });
 
 myRouter.get(`/comments`, async (req, res) => {
-  const articles = await api.getArticles();
-  res.render(`comments`, { articles: articles.slice(0, 3) })
+  const myArticles = await api.getArticles();
+  res.render(`my/comments`, { myArticles: myArticles.slice(0, 3) })
 });
 
 module.exports = myRouter;
