@@ -2,52 +2,54 @@
 
 const express = require(`express`);
 const {getLogger} = require("../lib/logger");
-const fs = require(`fs`).promises;
-const {DEFAULT_PORT, FILE_NAME, HttpCode, NOT_FOUND_TEXT} = require(`../../const`);
+const {DEFAULT_PORT, HttpCode, API_PREFIX} = require(`../../const`);
+const routes = require(`../api`);
 
-const logger = getLogger({name: `api`});
+const app = express();
+const logger = getLogger({
+  name: `api`,
+});
+
+
+app.use(express.json());
+app.use((req, res, next) => {
+  logger.debug(`Request on route ${req.url}`);
+
+  res.on(`finish`, () => {
+    logger.info(`Response status code ${res.statusCode}`);
+  });
+
+  return next();
+});
+app.use(API_PREFIX, routes);
+
+app.get(`/posts`, async (req, res) => {
+  res.send([]);
+});
+
+
+app.use((req, res) => {
+  logger.error(`Route not found: ${req.url}`);
+
+  return res.status(HttpCode.NOT_FOUND).send(`Not found`);
+});
+
+app.use((err, _req, _res, _next) => {
+  logger.error(`An error occurred on processing request: ${err.message}`);
+});
 
 module.exports = {
   name: `--server`,
   run(args) {
-    const [enteredPort] = args;
-    const port = Number.parseInt(enteredPort, 10) || DEFAULT_PORT;
+    const [customPort] = args;
+    const port = Number(customPort) || DEFAULT_PORT;
 
-    const app = express();
-    app.use(express.json());
-
-    app.get(`/posts`, async (req, res) => {
-      try {
-        const fileContent = await fs.readFile(FILE_NAME);
-        const mocks = JSON.parse(fileContent);
-
-        res.json(mocks);
-      } catch (error) {
-        logger.error(`An error occurred: ${error.message}`);
-        res.send([]);
-      }
+    const server = app.listen(port, () => {
+      return logger.info(`Listening to connections on ${port}`);
     });
 
-    app.use((req, res) => {
-      res
-        .status(HttpCode.NOT_FOUND)
-        .send(NOT_FOUND_TEXT)
-      logger.error(`Route not found: ${req.url}`)
+    server.once(`error`, (err) => {
+      return logger.error(`An error occurred on server creation: ${err.message}`);
     });
-
-    app.use((err, _req, _res, _next) => {
-      logger.error(`An error occured on processing request: ${err.message}`);
-    });
-
-    app.use((req, res, next) => {
-      logger.debug(`Request on route ${req.url}`);
-      res.on(`finish`, () => {
-        logger.info(`Response status code ${res.statusCode}`);
-      });
-      next();
-    });
-
-    logger.info(`Listening to connections on ${port}`);
-    app.listen(port);
-  }
+  },
 };

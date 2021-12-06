@@ -1,7 +1,8 @@
 'use strict';
 
+const {getLogger} = require("./lib/logger");
 const {Cli} = require(`./cli/index`);
-const chalk = require(`chalk`);
+const logger = getLogger({name: `service`});
 const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode, MAX_MOCK_ELEMENTS} = require(`../const`);
 
 const userArguments = process.argv.slice(USER_ARGV_INDEX);
@@ -15,7 +16,7 @@ if (userArguments.length === 0 || !Cli[userCommand]) {
 const MockElementsCount = userArguments.slice(1);
 
 if (MockElementsCount > MAX_MOCK_ELEMENTS) {
-  console.error(chalk.red(`Не больше ${MAX_MOCK_ELEMENTS} публикаций`));
+  logger.error(`Не больше ${MAX_MOCK_ELEMENTS} публикаций`);
   process.exit(ExitCode.Fail);
 }
 

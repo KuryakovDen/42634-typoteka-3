@@ -1,9 +1,10 @@
 'use strict';
 
+const {getLogger} = require("../lib/logger");
 const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
 
 const fs = require(`fs`).promises;
-const chalk = require(`chalk`);
+const logger = getLogger({name: `service`});
 const {nanoid} = require(`nanoid`);
 
 const {DEFAULT_ARTICLES_COUNT, MAX_ANNOUNCE_SENTENCE_COUNT, FILE_NAME, MAX_ID_LENGTH} = require(`../../const`);
@@ -20,7 +21,7 @@ const readContent = async (path) => {
     const content = await fs.readFile(path, `utf8`);
     return content.trim().split(`\n`);
   } catch (error) {
-    console.error(chalk.red(error));
+    logger.error(error);
     return [];
   }
 };
@@ -71,7 +72,7 @@ module.exports = {
         ));
 
     await fs.writeFile(FILE_NAME, content)
-      .then(() => console.info(chalk.green(`Operation success. File created.`)))
-      .catch(() => console.error(chalk.red(`Can't write data to file...`)));
+      .then(() => logger.info(`Operation success. File created.`))
+      .catch(() => logger.error(`Can't write data to file...`));
   }
 };

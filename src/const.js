@@ -13,6 +13,8 @@ const FILE_NAME = `mock.json`;
 const DEFAULT_COMMAND = `--help`;
 const NOT_FOUND_TEXT = `Not Found`;
 const PUBLIC_DIR = `public`;
+const UPLOAD_DIR = `upload`;
+const API_PREFIX = `/api`;
 
 const ExitCode = {
   Success: 0,
@@ -40,6 +42,8 @@ module.exports = {
   DEFAULT_SERVER_PORT,
   MAX_ID_LENGTH,
   PUBLIC_DIR,
+  UPLOAD_DIR,
+  API_PREFIX,
   LOG_FILE_PATH,
   FILE_NAME,
   MAX_MOCK_ELEMENTS,
