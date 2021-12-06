@@ -5,7 +5,11 @@ const articlesRouter = new Router();
 const api = require(`../api`).getAPI();
 
 articlesRouter.get(`/category/:id`, (req, res) => res.render(`articles/articles-by-category`));
-articlesRouter.get(`/add`, (req, res) => res.render(`articles/post`));
+
+articlesRouter.get(`/add`, (req, res) => {
+  const categories = api.getCategories();
+  res.render(`articles/post`, {categories});
+});
 
 articlesRouter.get(`/edit/:id`, async (req, res) => {
   const {id} = req.params;
