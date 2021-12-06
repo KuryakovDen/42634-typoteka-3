@@ -11,8 +11,11 @@ const getRandomDate = (daysCount) => new Date(Date.now() - daysCount * 24 * 60 *
 
 const shuffle = (array) => array.slice().sort(() => Math.random() - 0.5);
 
+const ensureArray = (value) => Array.isArray(value) ? value : [value];
+
 module.exports = {
   getRandomInt,
   getRandomDate,
-  shuffle
+  shuffle,
+  ensureArray
 };

@@ -21,7 +21,7 @@ class API {
     return response.data;
   }
 
-  async createOffer(data) {
+  async createArticle(data) {
     return this._load(`/articles`, {
       method: `POST`,
       data

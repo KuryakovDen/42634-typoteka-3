@@ -3,6 +3,23 @@
 const {Router} = require(`express`);
 const articlesRouter = new Router();
 const api = require(`../api`).getAPI();
+const multer = require(`multer`);
+const {nanoid} = require(`nanoid`);
+const {ensureArray} = require(`../../utils`)
+
+
+const uploadDirAbsolute = path.resolve(__dirname, UPLOAD_DIR);
+
+const storage = multer.diskStorage({
+  destination: uploadDirAbsolute,
+  filename: (req, file, cb) => {
+    const uniqueName = nanoid(10);
+    const extension = file.originalname.split('.').pop();
+    cb(null, `${uniqueName}.${extension}`);
+  }
+});
+
+const upload = multer({storage});
 
 articlesRouter.get(`/category/:id`, (req, res) => res.render(`articles/articles-by-category`));
 
@@ -18,6 +35,26 @@ articlesRouter.get(`/edit/:id`, async (req, res) => {
     api.getCategories()
   ]);
   res.render(`articles/post`, {article, categories});
+});
+
+articlesRouter.post(`/add`, upload.single(`upload`), async (req, res) => {
+  // в `body` содержатся текстовые данные формы
+  // в `file` — данные о сохранённом файле
+  const {body, file} = req;
+  const articleData = {
+    picture: file.filename,
+    fullText: body.fullText,
+    title: body.title,
+    announce: body.announce,
+    createdDate: body.createdDate,
+    category: ensureArray(body.category),
+  };
+  try {
+    await api.createArticle(articleData);
+    res.redirect(`/my`);
+  } catch (error) {
+    res.redirect(`back`);
+  }
 });
 
 module.exports = articlesRouter;
