@@ -6,8 +6,8 @@ const api = require(`../api`).getAPI();
 
 articlesRouter.get(`/category/:id`, (req, res) => res.render(`articles/articles-by-category`));
 
-articlesRouter.get(`/add`, (req, res) => {
-  const categories = api.getCategories();
+articlesRouter.get(`/add`, async (req, res) => {
+  const categories = await api.getCategories();
   res.render(`articles/post`, {categories});
 });
 
