@@ -2,7 +2,7 @@
 
 const path = require(`path`);
 const express = require(`express`);
-const {DEFAULT_SERVER_PORT, PUBLIC_DIR} = require(`../const`);
+const {DEFAULT_SERVER_PORT, PUBLIC_DIR, UPLOAD_DIR} = require(`../const`);
 const mainRoutes = require(`./routes/main-routes`);
 const myRoutes = require(`./routes/my-routes`);
 const articlesRoutes = require(`./routes/articles-routes`);
@@ -10,6 +10,7 @@ const articlesRoutes = require(`./routes/articles-routes`);
 const app = express();
 
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
+app.use(express.static(path.resolve(__dirname, UPLOAD_DIR)));
 
 app.use(`/`, mainRoutes);
 app.use(`/my/`, myRoutes);
