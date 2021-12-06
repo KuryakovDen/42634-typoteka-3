@@ -4,6 +4,8 @@ const {Router} = require(`express`);
 const articlesRouter = new Router();
 const api = require(`../api`).getAPI();
 const multer = require(`multer`);
+const path = require(`path`);
+const {UPLOAD_DIR} = require("../../const");
 const {nanoid} = require(`nanoid`);
 const {ensureArray} = require(`../../utils`)
 
