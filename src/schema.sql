@@ -19,7 +19,13 @@ CREATE TABLE categories (
 CREATE TABLE article_categories (
   article_id integer NOT NULL,
   category_id integer NOT NULL,
-  PRIMARY KEY(article_id, category_id)
+  PRIMARY KEY(article_id, category_id)б
+  FOREIGN KEY (article_id) REFERENCES articles(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+  FOREIGN KEY (category_id) REFERENCES categories(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE users (
