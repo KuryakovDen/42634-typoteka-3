@@ -50,3 +50,5 @@ CREATE TABLE comments (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+CREATE INDEX ON articles(title);
