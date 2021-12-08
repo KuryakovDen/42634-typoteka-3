@@ -15,20 +15,14 @@ class API {
     });
   }
 
-  async _load(url, options) {
-    const response = await this._http.request({url, ...options});
-
-    return response.data;
-  }
-
-  async createArticle(data) {
+  createArticle(data) {
     return this._load(`/articles`, {
       method: `POST`,
       data
     });
   }
 
-  async getCategories() {
+  getCategories() {
     return this._load(`/categories`);
   }
 
@@ -41,7 +35,13 @@ class API {
   }
 
   search(query) {
-    return this._load(`/search`, { params: {query} });
+    return this._load(`/search`, {params: {query}});
+  }
+
+  async _load(url, options) {
+    const response = await this._http.request({url, ...options});
+
+    return response.data;
   }
 }
 
