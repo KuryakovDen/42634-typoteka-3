@@ -1,3 +1,17 @@
+CREATE TABLE users (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(50) NOT NULL,
+  lastName varchar(80) NOT NULL,
+  email varchar(80) UNIQUE NOT NULL,
+  password varchar(100) NOT NULL,
+  avatar varchar(50)
+);
+
+CREATE TABLE categories (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(50) UNIQUE NOT NULL
+);
+
 CREATE TABLE articles (
   id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title varchar(150) NOT NULL,
@@ -11,11 +25,6 @@ CREATE TABLE articles (
     ON UPDATE CASCADE
 );
 
-CREATE TABLE categories (
-  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name varchar(50) UNIQUE NOT NULL
-);
-
 CREATE TABLE article_categories (
   article_id integer NOT NULL,
   category_id integer NOT NULL,
@@ -26,15 +35,6 @@ CREATE TABLE article_categories (
   FOREIGN KEY (category_id) REFERENCES categories(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
-
-CREATE TABLE users (
-  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name varchar(50) NOT NULL,
-  lastName varchar(80) NOT NULL,
-  email varchar(80) UNIQUE NOT NULL,
-  password varchar(100) NOT NULL,
-  avatar varchar(50)
 );
 
 CREATE TABLE comments (
