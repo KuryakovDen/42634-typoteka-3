@@ -41,7 +41,7 @@ CREATE TABLE comments (
   id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   article_id integer NOT NULL,
   user_id integer NOT NULL,
-  createdDate: timestamp NOT NULL,
+  createdDate timestamp NOT NULL,
   text text NOT NULL,
   FOREIGN KEY (article_id) REFERENCES articles(id)
     ON DELETE CASCADE
