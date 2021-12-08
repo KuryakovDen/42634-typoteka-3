@@ -15,7 +15,31 @@ JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORY_ID
 GROUP BY CAT.NAME
 
 // Запрос на получение списка публикаций (идентификатор публикации, заголовок публикации, анонс публикации, дата публикации, имя и фамилия автора, контактный email, количество комментариев, наименование категорий). Сначала свежие публикации
+SELECT AR.ID AS "ID публикации",
+	AR.TITLE AS "Заголовок публикации",
+	AR.ANNOUNCE AS "Анонс",
+	AR.CREATEDDATE AS "Дата публикации",
+	AR.IMAGE AS "Путь к изображению",
+	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
+	US.EMAIL,
+	COUNT(CM.ID) AS "Кол-во комментариев",
+	STRING_AGG(DISTINCT CA.NAME,
 
+		', ')
+FROM ARTICLES AR
+JOIN ARTICLE_CATEGORIES AC ON AR.ID = AC.ARTICLE_ID
+JOIN CATEGORIES CA ON AC.CATEGORY_ID = CA.ID
+LEFT JOIN COMMENTS CM ON AR.ID = CM.ARTICLE_ID
+JOIN USERS US ON AR.USER_ID = US.ID
+GROUP BY AR.ID,
+	AR.TITLE,
+	AR.ANNOUNCE,
+	AR. FULLTEXT,
+	AR.CREATEDDATE,
+	AR.IMAGE,
+	US.NAME || ' ' || US.LASTNAME,
+	US.EMAIL
+ORDER BY AR.CREATEDDATE DESC
 
 // Запрос на получение полной информации определённой публикации (идентификатор публикации, заголовок публикации, анонс, полный текст публикации, дата публикации, путь к изображению, имя и фамилия автора, контактный email, количество комментариев, наименование категорий)
 SELECT AR.ID AS "ID публикации",
