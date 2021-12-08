@@ -1,11 +1,18 @@
 // Запрос на получение списка всех категорий
-select * from categories
+SELECT *
+FROM CATEGORIES
 
 // Запрос на получение списка категорий, для которых создана минимум одна публикация (идентификатор, наименование категории)
-select * from categories cat join article_categories ac on cat.id = ac.category_id
+SELECT *
+FROM CATEGORIES CAT
+JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORY_ID
 
 // Запрос на получение списка категорий с количеством публикаций (идентификатор, наименование категории, количество публикаций в категории)
-
+SELECT CAT.NAME AS "Имя категории",
+	COUNT(AC.ARTICLE_ID) AS "Кол-во публикаций"
+FROM CATEGORIES CAT
+JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORY_ID
+GROUP BY CAT.NAME
 
 // Запрос на получение списка публикаций (идентификатор публикации, заголовок публикации, анонс публикации, дата публикации, имя и фамилия автора, контактный email, количество комментариев, наименование категорий). Сначала свежие публикации
 
@@ -20,6 +27,6 @@ select * from categories cat join article_categories ac on cat.id = ac.category_
 
 
 // Запрос на обновление заголовка определённой публикации на «Как я встретил Новый год»
-update articles
-set title = 'Как я встретил Новый год'
-where id = 2
+UPDATE ARTICLES
+SET TITLE = 'Как я встретил Новый год'
+WHERE ID = 2
