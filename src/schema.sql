@@ -19,7 +19,7 @@ CREATE TABLE categories (
 CREATE TABLE article_categories (
   article_id integer NOT NULL,
   category_id integer NOT NULL,
-  PRIMARY KEY(article_id, category_id)б
+  PRIMARY KEY (article_id, category_id),
   FOREIGN KEY (article_id) REFERENCES articles(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -43,4 +43,10 @@ CREATE TABLE comments (
   user_id integer NOT NULL,
   createdDate: timestamp NOT NULL,
   text text NOT NULL
+  FOREIGN KEY (article_id) REFERENCES articles(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
