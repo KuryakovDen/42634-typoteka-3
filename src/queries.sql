@@ -24,7 +24,14 @@ GROUP BY CAT.NAME
 
 
 // Запрос на получение списка комментариев для определённой публикации (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария). Сначала новые комментарии
-
+SELECT CM.ID AS "ID комментария",
+	CM.ARTICLE_ID AS "ID публикации",
+	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
+	CM.TEXT AS "Текст комментария"
+FROM COMMENTS CM
+JOIN USERS US ON CM.USER_ID = US.ID
+WHERE CM.ARTICLE_ID = 3
+ORDER BY CM.CREATEDDATE DESC
 
 // Запрос на обновление заголовка определённой публикации на «Как я встретил Новый год»
 UPDATE ARTICLES
