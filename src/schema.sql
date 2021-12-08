@@ -4,7 +4,11 @@ CREATE TABLE articles (
   createdDate timestamp NOT NULL,
   image varchar(50) NOT NULL,
   announce varchar(250) NOT NULL,
-  fullText text NOT NULL
+  fullText text NOT NULLб
+  user_id integer NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE categories (
