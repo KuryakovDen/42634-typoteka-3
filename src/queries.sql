@@ -18,7 +18,40 @@ GROUP BY CAT.NAME
 
 
 // Запрос на получение полной информации определённой публикации (идентификатор публикации, заголовок публикации, анонс, полный текст публикации, дата публикации, путь к изображению, имя и фамилия автора, контактный email, количество комментариев, наименование категорий)
+SELECT AR.ID AS "ID публикации",
+	AR.TITLE AS "Заголовок публикации",
+	AR.ANNOUNCE AS "Анонс",
+	AR. FULLTEXT AS "Полный текст",
+	AR.CREATEDDATE AS "Дата публикации",
+	AR.IMAGE AS "Путь к изображению",
+	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
+	US.EMAIL,
+	COUNT(CM.ID) AS "Кол-во комментариев",
 
+	(SELECT STRING_AGG(DISTINCT CA.NAME,
+
+										', ')
+		FROM ARTICLE_CATEGORIES AC
+		JOIN CATEGORIES CA ON AC.CATEGORY_ID = CA.ID
+		WHERE ARTICLE_ID = 2) AS "Список категорий"
+FROM ARTICLES AR
+JOIN USERS US ON AR.USER_ID = US.ID
+JOIN COMMENTS CM ON AR.ID = CM.ARTICLE_ID
+WHERE AR.ID = 2
+GROUP BY AR.ID,
+	AR.TITLE,
+	AR.ANNOUNCE,
+	AR. FULLTEXT,
+	AR.CREATEDDATE,
+	AR.IMAGE,
+	US.NAME || ' ' || US.LASTNAME,
+	US.EMAIL,
+	(SELECT STRING_AGG(DISTINCT CA.NAME,
+
+										', ')
+		FROM ARTICLE_CATEGORIES AC
+		JOIN CATEGORIES CA ON AC.CATEGORY_ID = CA.ID
+		WHERE ARTICLE_ID = 2)
 
 // Запрос на получение списка из 5 свежих комментариев (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария)
 SELECT CM.ID AS "ID комментария",
