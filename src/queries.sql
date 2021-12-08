@@ -20,4 +20,6 @@ select * from categories cat join article_categories ac on cat.id = ac.category_
 
 
 // Запрос на обновление заголовка определённой публикации на «Как я встретил Новый год»
-
+update articles
+set title = 'Как я встретил Новый год'
+where id = 2
