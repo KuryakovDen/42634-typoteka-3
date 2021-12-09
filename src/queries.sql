@@ -61,7 +61,7 @@ SELECT AR.ID AS "ID публикации",
 FROM ARTICLES AR
 JOIN USERS US ON AR.USERID = US.ID
 JOIN COMMENTS CM ON AR.ID = CM.ARTICLEID
-WHERE AR.ID = 2
+WHERE AR.ID = 5
 GROUP BY AR.ID,
 	AR.TITLE,
 	AR.ANNOUNCE,
@@ -75,7 +75,7 @@ GROUP BY AR.ID,
 										', ')
 		FROM ARTICLE_CATEGORIES AC
 		JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
-		WHERE ARTICLEID = 2)
+		WHERE ARTICLEID = 5)
 
 // Запрос на получение списка из 5 свежих комментариев (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария)
 SELECT CM.ID AS "ID комментария",
@@ -94,10 +94,10 @@ SELECT CM.ID AS "ID комментария",
 	CM.TEXT AS "Текст комментария"
 FROM COMMENTS CM
 JOIN USERS US ON CM.USERID = US.ID
-WHERE CM.ARTICLEID = 3
+WHERE CM.ARTICLEID = 4
 ORDER BY CM.CREATEDDATE DESC
 
 // Запрос на обновление заголовка определённой публикации на «Как я встретил Новый год»
 UPDATE ARTICLES
 SET TITLE = 'Как я встретил Новый год'
-WHERE ID = 2
+WHERE ID = 6
