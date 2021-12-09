@@ -5,13 +5,13 @@ FROM CATEGORIES
 // Запрос на получение списка категорий, для которых создана минимум одна публикация (идентификатор, наименование категории)
 SELECT *
 FROM CATEGORIES CAT
-JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORY_ID
+JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORYID
 
 // Запрос на получение списка категорий с количеством публикаций (идентификатор, наименование категории, количество публикаций в категории)
 SELECT CAT.NAME AS "Имя категории",
-	COUNT(AC.ARTICLE_ID) AS "Кол-во публикаций"
+	COUNT(AC.ARTICLEID) AS "Кол-во публикаций"
 FROM CATEGORIES CAT
-JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORY_ID
+JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORYID
 GROUP BY CAT.NAME
 
 // Запрос на получение списка публикаций (идентификатор публикации, заголовок публикации, анонс публикации, дата публикации, имя и фамилия автора, контактный email, количество комментариев, наименование категорий). Сначала свежие публикации
@@ -27,10 +27,10 @@ SELECT AR.ID AS "ID публикации",
 
 		', ')
 FROM ARTICLES AR
-JOIN ARTICLE_CATEGORIES AC ON AR.ID = AC.ARTICLE_ID
-JOIN CATEGORIES CA ON AC.CATEGORY_ID = CA.ID
-LEFT JOIN COMMENTS CM ON AR.ID = CM.ARTICLE_ID
-JOIN USERS US ON AR.USER_ID = US.ID
+JOIN ARTICLE_CATEGORIES AC ON AR.ID = AC.ARTICLEID
+JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
+LEFT JOIN COMMENTS CM ON AR.ID = CM.ARTICLEID
+JOIN USERS US ON AR.USERID = US.ID
 GROUP BY AR.ID,
 	AR.TITLE,
 	AR.ANNOUNCE,
@@ -56,11 +56,11 @@ SELECT AR.ID AS "ID публикации",
 
 										', ')
 		FROM ARTICLE_CATEGORIES AC
-		JOIN CATEGORIES CA ON AC.CATEGORY_ID = CA.ID
-		WHERE ARTICLE_ID = 2) AS "Список категорий"
+		JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
+		WHERE ARTICLEID = 2) AS "Список категорий"
 FROM ARTICLES AR
-JOIN USERS US ON AR.USER_ID = US.ID
-JOIN COMMENTS CM ON AR.ID = CM.ARTICLE_ID
+JOIN USERS US ON AR.USERID = US.ID
+JOIN COMMENTS CM ON AR.ID = CM.ARTICLEID
 WHERE AR.ID = 2
 GROUP BY AR.ID,
 	AR.TITLE,
@@ -74,27 +74,27 @@ GROUP BY AR.ID,
 
 										', ')
 		FROM ARTICLE_CATEGORIES AC
-		JOIN CATEGORIES CA ON AC.CATEGORY_ID = CA.ID
-		WHERE ARTICLE_ID = 2)
+		JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
+		WHERE ARTICLEID = 2)
 
 // Запрос на получение списка из 5 свежих комментариев (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария)
 SELECT CM.ID AS "ID комментария",
-	CM.ARTICLE_ID AS "ID публикации",
+	CM.ARTICLEID AS "ID публикации",
 	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
 	CM.TEXT AS "Текст комментария"
 FROM COMMENTS CM
-JOIN USERS US ON CM.USER_ID = US.ID
+JOIN USERS US ON CM.USERID = US.ID
 ORDER BY CM.CREATEDDATE DESC
 LIMIT 5
 
 // Запрос на получение списка комментариев для определённой публикации (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария). Сначала новые комментарии
 SELECT CM.ID AS "ID комментария",
-	CM.ARTICLE_ID AS "ID публикации",
+	CM.ARTICLEID AS "ID публикации",
 	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
 	CM.TEXT AS "Текст комментария"
 FROM COMMENTS CM
-JOIN USERS US ON CM.USER_ID = US.ID
-WHERE CM.ARTICLE_ID = 3
+JOIN USERS US ON CM.USERID = US.ID
+WHERE CM.ARTICLEID = 3
 ORDER BY CM.CREATEDDATE DESC
 
 // Запрос на обновление заголовка определённой публикации на «Как я встретил Новый год»
