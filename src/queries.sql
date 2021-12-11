@@ -1,103 +1,97 @@
 // Запрос на получение списка всех категорий
 SELECT *
-FROM CATEGORIES
+FROM categories
 
 // Запрос на получение списка категорий, для которых создана минимум одна публикация (идентификатор, наименование категории)
 SELECT *
-FROM CATEGORIES CAT
-JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORYID
+FROM categories cat
+JOIN article_categories ac ON cat.id = ac.categoryId
 
 // Запрос на получение списка категорий с количеством публикаций (идентификатор, наименование категории, количество публикаций в категории)
-SELECT CAT.NAME AS "Имя категории",
-	COUNT(AC.ARTICLEID) AS "Кол-во публикаций"
-FROM CATEGORIES CAT
-JOIN ARTICLE_CATEGORIES AC ON CAT.ID = AC.CATEGORYID
-GROUP BY CAT.NAME
+SELECT cat.name AS "Имя категории",
+	COUNT(ac.articleId) AS "Кол-во публикаций"
+FROM categories cat
+JOIN article_categories ac ON cat.id = ac.categoryId
+GROUP BY cat.name
 
 // Запрос на получение списка публикаций (идентификатор публикации, заголовок публикации, анонс публикации, дата публикации, имя и фамилия автора, контактный email, количество комментариев, наименование категорий). Сначала свежие публикации
-SELECT AR.ID AS "ID публикации",
-	AR.TITLE AS "Заголовок публикации",
-	AR.ANNOUNCE AS "Анонс",
-	AR.CREATEDDATE AS "Дата публикации",
-	AR.IMAGE AS "Путь к изображению",
-	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
-	US.EMAIL,
-	COUNT(CM.ID) AS "Кол-во комментариев",
-	STRING_AGG(DISTINCT CA.NAME,
-
-		', ')
-FROM ARTICLES AR
-JOIN ARTICLE_CATEGORIES AC ON AR.ID = AC.ARTICLEID
-JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
-LEFT JOIN COMMENTS CM ON AR.ID = CM.ARTICLEID
-JOIN USERS US ON AR.USERID = US.ID
-GROUP BY AR.ID,
-	AR.TITLE,
-	AR.ANNOUNCE,
-	AR. FULLTEXT,
-	AR.CREATEDDATE,
-	AR.IMAGE,
-	US.NAME || ' ' || US.LASTNAME,
-	US.EMAIL
-ORDER BY AR.CREATEDDATE DESC
+SELECT ar.id AS "ID публикации",
+	ar.title AS "Заголовок публикации",
+	ar.announce AS "Анонс",
+	ar.createdDate AS "Дата публикации",
+	ar.image AS "Путь к изображению",
+	us.name || ' ' || us.lastName AS "Имя и фамилия автора",
+	us.email,
+	COUNT(cm.id) AS "Кол-во комментариев",
+	STRING_AGG(DISTINCT ca.name, ', ')
+FROM articles ar
+JOIN article_categories ac ON ar.id = ac.articleId
+JOIN categories ca ON ac.categoryId = ca.id
+LEFT JOIN comments CM ON ar.id = cm.articleId
+JOIN users us ON ar.userId = us.id
+GROUP BY ar.id,
+	ar.title,
+	ar.announce,
+	ar.fullText,
+	ar.createdDate,
+	ar.image,
+	us.name || ' ' || us.lastName,
+	us.email
+ORDER BY ar.createdDate DESC
 
 // Запрос на получение полной информации определённой публикации (идентификатор публикации, заголовок публикации, анонс, полный текст публикации, дата публикации, путь к изображению, имя и фамилия автора, контактный email, количество комментариев, наименование категорий)
-SELECT AR.ID AS "ID публикации",
-	AR.TITLE AS "Заголовок публикации",
-	AR.ANNOUNCE AS "Анонс",
-	AR. FULLTEXT AS "Полный текст",
-	AR.CREATEDDATE AS "Дата публикации",
-	AR.IMAGE AS "Путь к изображению",
-	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
-	US.EMAIL,
-	COUNT(CM.ID) AS "Кол-во комментариев",
+SELECT ar.id AS "ID публикации",
+	ar.title AS "Заголовок публикации",
+	ar.announce AS "Анонс",
+	ar.fullText AS "Полный текст",
+	ar.createdDate AS "Дата публикации",
+	ar.image AS "Путь к изображению",
+	us.name || ' ' || us.lastName AS "Имя и фамилия автора",
+	us.email,
+	COUNT(cm.id) AS "Кол-во комментариев",
 
-	(SELECT STRING_AGG(DISTINCT CA.NAME,
-
-										', ')
-		FROM ARTICLE_CATEGORIES AC
-		JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
-		WHERE ARTICLEID = 2) AS "Список категорий"
-FROM ARTICLES AR
-JOIN USERS US ON AR.USERID = US.ID
-JOIN COMMENTS CM ON AR.ID = CM.ARTICLEID
-WHERE AR.ID = 5
-GROUP BY AR.ID,
-	AR.TITLE,
-	AR.ANNOUNCE,
-	AR. FULLTEXT,
-	AR.CREATEDDATE,
-	AR.IMAGE,
-	US.NAME || ' ' || US.LASTNAME,
-	US.EMAIL,
-	(SELECT STRING_AGG(DISTINCT CA.NAME,
-
-										', ')
-		FROM ARTICLE_CATEGORIES AC
-		JOIN CATEGORIES CA ON AC.CATEGORYID = CA.ID
-		WHERE ARTICLEID = 5)
+	(SELECT STRING_AGG(DISTINCT ca.name, ', ')
+		FROM article_categories ac
+		JOIN categories ca ON ac.categoryId = ca.id
+		WHERE articleId = 2) AS "Список категорий"
+FROM articles ar
+JOIN users us ON ar.userId = us.id
+JOIN comments cm ON ar.id = cm.articleId
+WHERE ar.id = 2
+GROUP BY ar.id,
+	ar.title,
+	ar.announce,
+	ar.fullText,
+	ar.createdDate,
+	ar.image,
+	us.name || ' ' || us.lastName,
+	us.email,
+	(SELECT STRING_AGG(DISTINCT ca.name, ', ')
+		FROM article_categories ac
+		JOIN categories ca ON ac.categoryId = ca.id
+		WHERE articleId = 2)
 
 // Запрос на получение списка из 5 свежих комментариев (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария)
-SELECT CM.ID AS "ID комментария",
-	CM.ARTICLEID AS "ID публикации",
-	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
-	CM.TEXT AS "Текст комментария"
-FROM COMMENTS CM
-JOIN USERS US ON CM.USERID = US.ID
-ORDER BY CM.CREATEDDATE DESC
+SELECT cm.id AS "ID комментария",
+	cm.articleId AS "ID публикации",
+	us.name || ' ' || us.lastName AS "Имя и фамилия автора",
+	cm.fullText AS "Текст комментария"
+FROM comments cm
+JOIN users us ON cm.userId = us.id
+ORDER BY cm.createdDate DESC
 LIMIT 5
 
 // Запрос на получение списка комментариев для определённой публикации (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария). Сначала новые комментарии
-SELECT CM.ID AS "ID комментария",
-	CM.ARTICLEID AS "ID публикации",
-	US.NAME || ' ' || US.LASTNAME AS "Имя и фамилия автора",
-	CM.TEXT AS "Текст комментария"
-FROM COMMENTS CM
-JOIN USERS US ON CM.USERID = US.ID
-WHERE CM.ARTICLEID = 4
-ORDER BY CM.CREATEDDATE DESC
+SELECT cm.id AS "ID комментария",
+	cm.articleId AS "ID публикации",
+	us.name || ' ' || us.lastName AS "Имя и фамилия автора",
+	cm.fullText AS "Текст комментария"
+FROM comments cm
+JOIN users us ON cm.userId = us.id
+WHERE cm.articleId = 1
+ORDER BY cm.createdDate DESC
 
 // Запрос на обновление заголовка определённой публикации на «Как я встретил Новый год»
-UPDATE ARTICLES
-SET TITLE = 'Как я встретил Новый год'
-WHERE ID = 6
+UPDATE articles
+SET title = 'Как я встретил Новый год'
+WHERE id = 2
