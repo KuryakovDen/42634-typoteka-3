@@ -27,7 +27,7 @@ SELECT ar.id AS "ID публикации",
 FROM articles ar
 JOIN article_categories ac ON ar.id = ac.articleId
 JOIN categories ca ON ac.categoryId = ca.id
-LEFT JOIN comments CM ON ar.id = cm.articleId
+LEFT JOIN comments cm ON ar.id = cm.articleId
 JOIN users us ON ar.userId = us.id
 GROUP BY ar.id,
 	ar.title,
