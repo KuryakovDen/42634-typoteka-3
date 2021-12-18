@@ -1,8 +1,9 @@
 'use strict';
 
 const express = require(`express`);
-const {getLogger} = require("../lib/logger");
-const {DEFAULT_PORT, HttpCode, API_PREFIX} = require(`../../const`);
+const {getLogger} = require(`../lib/logger`);
+const {DEFAULT_PORT, HttpCode, API_PREFIX, ExitCode} = require(`../../const`);
+const sequelize = require(`../lib/sequelize`);
 const routes = require(`../api`);
 
 const app = express();
@@ -40,7 +41,17 @@ app.use((err, _req, _res, _next) => {
 
 module.exports = {
   name: `--server`,
-  run(args) {
+  async run(args) {
+    try {
+      logger.info(`Trying to connect database...`);
+      await sequelize.authenticate();
+    } catch (error) {
+      logger.error(`An error occurred: ${error.message}`);
+      process.exit(ExitCode.Fail);
+    }
+
+    logger.info(`Connection to database established`);
+
     const [customPort] = args;
     const port = Number(customPort) || DEFAULT_PORT;
 
