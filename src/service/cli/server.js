@@ -2,7 +2,7 @@
 
 const express = require(`express`);
 const {getLogger} = require(`../lib/logger`);
-const {DEFAULT_PORT, HttpCode, API_PREFIX} = require(`../../const`);
+const {DEFAULT_PORT, HttpCode, API_PREFIX, ExitCode} = require(`../../const`);
 const sequelize = require(`../lib/sequelize`);
 const routes = require(`../api`);
 
@@ -47,7 +47,7 @@ module.exports = {
       await sequelize.authenticate();
     } catch (error) {
       logger.error(`An error occurred: ${error.message}`);
-      process.exit(1);
+      process.exit(ExitCode.Fail);
     }
 
     logger.info(`Connection to database established`);
